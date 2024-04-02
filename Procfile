@@ -1,1 +1,1 @@
-web: python assistant.py
+web: gunicorn assistant:app
