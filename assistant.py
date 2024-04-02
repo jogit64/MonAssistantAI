@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
 from openai import OpenAI
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import os
 
 app = Flask(__name__)
 
 # Charge les variables d'environnement du fichier .env
-load_dotenv()
+# load_dotenv()
 
 # Initialisation du client OpenAI avec votre clé API
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
