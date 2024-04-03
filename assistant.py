@@ -8,13 +8,23 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = 'assistant-ai-1a-urrugne-64122'
 
-# Configuration de la base de données
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://lebonubw:Baltimore69@lebonubw.mysql.db/lebonubw'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Configuration de la base de données à partir de la variable d'environnement DATABASE_URL
+database_url = os.getenv('DATABASE_URL')
+if database_url:
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+else:
+    # Si DATABASE_URL n'est pas défini dans les variables d'environnement, afficher un message d'erreur
+    print("ERREUR: La variable d'environnement DATABASE_URL n'est pas définie.")
+    exit(1)  # Quitter l'application car la configuration de la base de données est manquante
+
+# Configuration OpenAI
+openai_api_key = os.environ.get("OPENAI_API_KEY")
+client = OpenAI(api_key=openai_api_key)
+
+# Initialisation de SQLAlchemy
 db = SQLAlchemy(app)
 
-client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-
+# Définition du modèle de message
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     session_key = db.Column(db.String(255), nullable=False)
@@ -22,11 +32,13 @@ class Message(db.Model):
     role = db.Column(db.String(50), nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
 
+# Route principale
 @app.route('/')
 def home():
     session['message_history'] = []  # Réinitialise l'historique pour chaque nouvelle session
     return render_template('index.html')
 
+# Route pour poser une question
 @app.route('/ask', methods=['POST'])
 def ask_question():
     question = request.form['question']
@@ -64,4 +76,3 @@ def ask_question():
     db.session.commit()
     
     return jsonify({"response": response_chatgpt})
-
