@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, session
+
+from flask import Flask, render_template, request, session, jsonify  
+
 from openai import OpenAI
 import os
 
@@ -37,7 +39,8 @@ def ask_question():
     # Sauvegarde l'historique mis à jour dans la session
     session['message_history'] = message_history
     
-    return render_template('index.html', messages=message_history)
+    # return render_template('index.html', messages=message_history)
+    return jsonify({"response": response_chatgpt})
 
 if __name__ == '__main__':
     app.run(debug=True)
