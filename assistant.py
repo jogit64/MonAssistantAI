@@ -1,10 +1,10 @@
-
-from flask import Flask, render_template, request, session, jsonify  
-
+from flask import Flask, render_template, request, session, jsonify 
+from flask_cors import CORS
 from openai import OpenAI
 import os
 
 app = Flask(__name__)
+CORS(app)  
 app.secret_key = 'assistant-ai-1a-urrugne-64122'  # Définissez une clé secrète pour les sessions
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
@@ -39,7 +39,6 @@ def ask_question():
     # Sauvegarde l'historique mis à jour dans la session
     session['message_history'] = message_history
     
-    # return render_template('index.html', messages=message_history)
     return jsonify({"response": response_chatgpt})
 
 if __name__ == '__main__':
