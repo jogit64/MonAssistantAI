@@ -28,6 +28,7 @@ def home():
 @app.route('/ask', methods=['POST'])
 def ask_question():
     question = request.form['question']
+    session_key = request.form['sessionKey']  # Récupère la clé de session à partir des données de la requête
     
     # Récupère l'historique des messages de la session actuelle
     message_history = session.get('message_history', [])
@@ -51,16 +52,14 @@ def ask_question():
     session['message_history'] = message_history
 
     # Log user question
-    new_message = Message(session_key=session['message_key'], message=question, role='user')
+    new_message = Message(session_key=session_key, message=question, role='user')  # Utilise session_key
     db.session.add(new_message)
     db.session.commit()
     
     # Log GPT response
-    response_message = Message(session_key=session['message_key'], message=response_chatgpt, role='assistant')
+    response_message = Message(session_key=session_key, message=response_chatgpt, role='assistant')  # Utilise session_key
     db.session.add(response_message)
     db.session.commit()
     
     return jsonify({"response": response_chatgpt})
 
-if __name__ == '__main__':
-    app.run(debug=True)
