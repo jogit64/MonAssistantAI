@@ -8,7 +8,9 @@ app = Flask(__name__)
 CORS(app)
 app.secret_key = 'assistant-ai-1a-urrugne-64122'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'mysql+pymysql://lebonubw:Baltimore69@lebonubw/lebonubw.mysql.db')
+# Configuration de la base de données
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://lebonubw:Baltimore69@lebonubw.mysql.db/lebonubw'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
