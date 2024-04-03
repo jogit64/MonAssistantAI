@@ -42,7 +42,7 @@ def ask_question():
         model="gpt-3.5-turbo",
     )
     
-    # Récupère la réponse de l'API
+    # Récupère la réponse de l'API 
     response_chatgpt = chat_completion.choices[0].message.content
     
     # Ajoute la réponse à l'historique des messages de la session
