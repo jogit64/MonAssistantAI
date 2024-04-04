@@ -1,0 +1,18 @@
+git add requirements.txt
+git commit -m "Update requirements.txt to include Flask"
+git push heroku main
+
+Définir des variables d'environnement :
+heroku config:set OPENAI_API_KEY=votre_clé_api
+heroku config:set NOM_VARIABLE=ma_valeur
+
+
+pip freeze > requirements.txt
+
+
+heroku logs --tail
+
+(heroku create mais aussi open restart)
+
+venv\Scripts\activate
+heroku config
