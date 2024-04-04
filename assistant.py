@@ -44,6 +44,9 @@ def ask_question():
     
     # Sauvegarde l'historique mis à jour dans la session
     session['message_history'] = message_history
+
+     # Indique explicitement que la session a été modifiée
+    session.modified = True
     
     # return render_template('index.html', messages=message_history)
     return jsonify({"response": response_chatgpt})
