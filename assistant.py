@@ -8,9 +8,9 @@ from flask_cors import CORS
 
 
 
-
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True, origins=['https://votre-domaine-ovh.com'])
+# CORS(app)
 app.secret_key = 'assistant-ai-1a-urrugne-64122'  # Définissez une clé secrète pour les sessions
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
