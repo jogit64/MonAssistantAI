@@ -7,11 +7,17 @@ from flask_cors import CORS
 
 
 
-
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=['https://www.goodyesterday.com'])
 # CORS(app)
 app.secret_key = 'assistant-ai-1a-urrugne-64122'  # Définissez une clé secrète pour les sessions
+
+
+app.config['SESSION_COOKIE_SECURE'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+
+# Initialisez l'extension Flask-Session ou une autre gestion de session ici...
+# Session(app)
 
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
